@@ -170,7 +170,7 @@ export const KEYS: KeyType[][] = [
     ...functionKeys,
     {
       width: 1,
-      display: <div className="rounded-full flex flex-col items-center justify-center size-8 border border-neutral-950 bg-neutral-900"><Icon svg={send} /></div>,
+      display: <div className="rounded-full flex flex-col items-center justify-center size-8 border border-neutral-950 bg-neutral-900"></div>,
       keyCode: ['lock']
     },
   ],
