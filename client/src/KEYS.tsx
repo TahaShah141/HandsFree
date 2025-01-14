@@ -2,6 +2,7 @@ import { KeyType } from "./types";
 import cmd from './assets/command.svg'
 import opt from './assets/option.svg'
 import ctrl from './assets/control.svg'
+import send from './assets/send.svg'
 import fn from './assets/globe.svg'
 import f1 from './assets/f1.svg';
 import f2 from './assets/f2.svg';
@@ -169,8 +170,8 @@ export const KEYS: KeyType[][] = [
     ...functionKeys,
     {
       width: 1,
-      display: <div className="rounded-full size-8 border border-neutral-950 bg-neutral-900"></div>,
-      keyCode: 'power'
+      display: <div className="rounded-full flex flex-col items-center justify-center size-8 border border-neutral-950 bg-neutral-900"><Icon svg={send} /></div>,
+      keyCode: 'send'
     },
   ],
   [
