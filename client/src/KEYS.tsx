@@ -30,7 +30,7 @@ const functionKeys = [
         <p className="uppercase">{`f1`}</p>
       </div>
     ),
-    keyCode: "f1",
+    keyCode: ["f1"],
   },
   {
     width: 1,
@@ -40,7 +40,7 @@ const functionKeys = [
         <p className="uppercase">{`f2`}</p>
       </div>
     ),
-    keyCode: "f2",
+    keyCode: ["f2"],
   },
   {
     width: 1,
@@ -50,7 +50,7 @@ const functionKeys = [
         <p className="uppercase">{`f3`}</p>
       </div>
     ),
-    keyCode: "f3",
+    keyCode: ["f3"],
   },
   {
     width: 1,
@@ -60,7 +60,7 @@ const functionKeys = [
         <p className="uppercase">{`f4`}</p>
       </div>
     ),
-    keyCode: "f4",
+    keyCode: ["f4"],
   },
   {
     width: 1,
@@ -70,7 +70,7 @@ const functionKeys = [
         <p className="uppercase">{`f5`}</p>
       </div>
     ),
-    keyCode: "f5",
+    keyCode: ["f5"],
   },
   {
     width: 1,
@@ -80,7 +80,7 @@ const functionKeys = [
         <p className="uppercase">{`f6`}</p>
       </div>
     ),
-    keyCode: "f6",
+    keyCode: ["f6"],
   },
   {
     width: 1,
@@ -90,7 +90,7 @@ const functionKeys = [
         <p className="uppercase">{`f7`}</p>
       </div>
     ),
-    keyCode: "f7",
+    keyCode: ["f7"],
   },
   {
     width: 1,
@@ -100,7 +100,7 @@ const functionKeys = [
         <p className="uppercase">{`f8`}</p>
       </div>
     ),
-    keyCode: "f8",
+    keyCode: ["f8"],
   },
   {
     width: 1,
@@ -110,7 +110,7 @@ const functionKeys = [
         <p className="uppercase">{`f9`}</p>
       </div>
     ),
-    keyCode: "f9",
+    keyCode: ["f9"],
   },
   {
     width: 1,
@@ -120,7 +120,7 @@ const functionKeys = [
         <p className="uppercase">{`f10`}</p>
       </div>
     ),
-    keyCode: "f10",
+    keyCode: ["f10"],
   },
   {
     width: 1,
@@ -130,7 +130,7 @@ const functionKeys = [
         <p className="uppercase">{`f11`}</p>
       </div>
     ),
-    keyCode: "f11",
+    keyCode: ["f11"],
   },
   {
     width: 1,
@@ -140,21 +140,21 @@ const functionKeys = [
         <p className="uppercase">{`f12`}</p>
       </div>
     ),
-    keyCode: "f12",
+    keyCode: ["f12"],
   },
 ];
 
-const stackedKey = (symbols: string[], keyCode?: string): KeyType => {
+const stackedKey = (symbols: string[]): KeyType => {
   return ({
-    keyCode: keyCode ?? symbols[1],
+    keyCode: symbols.reverse(),
     width: 1,
-    display: <div className="size-full flex flex-col justify-center items-center">{symbols.map(s => <p>{s}</p>)}</div>
+    display: <div className="size-full flex flex-col-reverse justify-center items-center">{symbols.map(s => <p>{s}</p>)}</div>
   })
 }
 
 const alphabetKey = (alpha: string): KeyType => {
   return ({
-    keyCode: alpha,
+    keyCode: [alpha, alpha.toUpperCase()],
     width: 1,
     display: <div className="size-full text-sm flex flex-col justify-center items-center">{alpha.toUpperCase()}</div>
   })
@@ -165,13 +165,13 @@ export const KEYS: KeyType[][] = [
     {
       width: 1.5,
       display: <div className="size-full flex flex-col justify-end">esc</div>,
-      keyCode: "escape"
+      keyCode: ["escape"]
     },
     ...functionKeys,
     {
       width: 1,
       display: <div className="rounded-full flex flex-col items-center justify-center size-8 border border-neutral-950 bg-neutral-900"><Icon svg={send} /></div>,
-      keyCode: 'send'
+      keyCode: ['lock']
     },
   ],
   [
@@ -191,14 +191,14 @@ export const KEYS: KeyType[][] = [
     {
       width: 1.5,
       display: <div className="size-full flex flex-col justify-end items-end">delete</div>,
-      keyCode: "delete"
+      keyCode: ["backspace"]
     },
   ],
   [
     {
       width: 1.5,
       display: <div className="size-full flex flex-col justify-end">tab</div>,
-      keyCode: "tab"
+      keyCode: ["tab"]
     },
     ...('qwertyuiop'.split("")).map((alpha) => alphabetKey(alpha)),
     stackedKey(['{', '[']),
@@ -209,7 +209,7 @@ export const KEYS: KeyType[][] = [
     {
       width: 1.75,
       display: <div className="size-full flex flex-col justify-end">caps lock</div>,
-      keyCode: "caps"
+      keyCode: ["hyper"],
     },
     ...('asdfghjkl'.split("")).map((alpha) => alphabetKey(alpha)),
     stackedKey([':', ';']),
@@ -217,14 +217,14 @@ export const KEYS: KeyType[][] = [
     {
       width: 1.8,
       display: <div className="size-full flex flex-col justify-end items-end">return</div>,
-      keyCode: "enter"
+      keyCode: ["enter"]
     },
   ],
   [
     {
       width: 2.325,
       display: <div className="size-full flex flex-col justify-end">shift</div>,
-      keyCode: "shift"
+      keyCode: ["shift"],
     },
     ...('zxcvbnm'.split("")).map((alpha) => alphabetKey(alpha)),
     stackedKey(['<', ',']),
@@ -233,43 +233,43 @@ export const KEYS: KeyType[][] = [
     {
       width: 2.325,
       display: <div className="size-full flex flex-col justify-end items-end">shift</div>,
-      keyCode: "shift"
+      keyCode: ["shift"],
     },
   ],
   [
     {
       width: 1,
       display: <div className="size-full text-[10px] flex flex-col pb-1 justify-between"><p className="text-end">fn</p><Icon svg={fn}/></div>,
-      keyCode: 'fn',
+      keyCode: ['fn'],
     },
     {
       width: 1,
       display: <div className="size-full text-[10px] flex flex-col justify-between items-end"><Icon svg={ctrl}/><p>control</p></div>,
-      keyCode: 'ctrl',
+      keyCode: ['ctrl'],
     },
     {
       width: 1,
       display: <div className="size-full text-[10px] flex flex-col justify-between items-end"><Icon svg={opt}/><p>option</p></div>,
-      keyCode: 'alt',
+      keyCode: ['alt'],
     },
     {
       width: 1.25,
       display: <div className="size-full text-[10px] flex flex-col justify-between items-end"><Icon svg={cmd}/><p>command</p></div>,
-      keyCode: 'cmd',
+      keyCode: ['cmd'],
     },
     {
       width: 5.3,
-      keyCode: "space"
+      keyCode: ["space"]
     },
     {
       width: 1.25,
       display: <div className="size-full text-[10px] flex flex-col justify-between"><Icon svg={cmd}/><p>command</p></div>,
-      keyCode: 'cmd',
+      keyCode: ['cmd'],
     },
     {
       width: 1,
       display: <div className="size-full text-[10px] flex flex-col justify-between"><Icon svg={opt}/><p>option</p></div>,
-      keyCode: 'alt',
+      keyCode: ['alt'],
     },
   ]
 ]

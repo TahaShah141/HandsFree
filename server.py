@@ -68,6 +68,7 @@ def test_route():
 
 @app.route('/keyboard', methods=['POST'])
 def handle_keyboard():
+    
     data = request.json
     keys = data.get('keys', [])  # List of keys to press in order
 
