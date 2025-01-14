@@ -2,7 +2,6 @@ import { KeyType } from "./types";
 import cmd from './assets/command.svg'
 import opt from './assets/option.svg'
 import ctrl from './assets/control.svg'
-import send from './assets/send.svg'
 import fn from './assets/globe.svg'
 import f1 from './assets/f1.svg';
 import f2 from './assets/f2.svg';
