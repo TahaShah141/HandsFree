@@ -18,7 +18,7 @@ export const Keyboard = () => {
     //use power key
     if (s === 'lock') {
       console.log("locking")
-      fetch('http://192.168.100.30:3000/keyboard', {
+      fetch(`http://${window.location.hostname}:3000/keyboard`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ export const Keyboard = () => {
 
     //if shift pressed before key
     if (modifiersPressed.length === 1 && modifiersPressed[0] === 'shift') {
-      fetch('http://192.168.100.30:3000/keyboard', {
+      fetch(`http://${window.location.hostname}:3000/keyboard`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ export const Keyboard = () => {
     }
 
     //default case of sending through
-    fetch('http://192.168.100.30:3000/keyboard', {
+    fetch(`http://${window.location.hostname}:3000/keyboard`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
