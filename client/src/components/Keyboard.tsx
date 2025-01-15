@@ -17,6 +17,13 @@ export const Keyboard = () => {
 
     //use power key
     if (s === 'lock') {
+
+      if (hyperPressed) {
+        fetch(`http://${window.location.hostname}:3000/kill`)
+        setTimeout(() => window.location.reload(), 500)
+        return
+      }
+
       console.log("locking")
       fetch(`http://${window.location.hostname}:3000/keyboard`, {
         method: 'POST',

@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from pynput.keyboard import Controller as KeyboardController, Key
 from flask_cors import CORS
 from displayQR import displayIPAddress
+from killServers import killServers
 
 app = Flask(__name__)
 CORS(app)
@@ -66,6 +67,10 @@ keymap = {
 @app.route('/', methods=['GET'])
 def test_route():
   return jsonify({"message": "Hello Taha"}), 200
+
+@app.route('/kill', methods=['GET'])
+def kill():
+  killServers()
 
 @app.route('/keyboard', methods=['POST'])
 def handle_keyboard():
