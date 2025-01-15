@@ -2,20 +2,37 @@ import os
 import psutil
 import subprocess
 import time
+import platform
 
 def get_pids_by_port(port):
     """Find all PIDs listening on a specific port."""
     try:
-        # Use lsof to find processes using the port
-        result = subprocess.run(
-            ["lsof", "-t", "-i", f":{port}"],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-        )
-        # Extract PIDs from the output
-        pids = result.stdout.strip().split("\n")
-        return [int(pid) for pid in pids if pid.isdigit()]
+        if platform.system() == "Windows":
+            # Use netstat and findstr to find processes on the port (Windows)
+            result = subprocess.run(
+                ["netstat", "-ano", "|", "findstr", f":{port}"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                shell=True,
+            )
+            lines = result.stdout.strip().split("\n")
+            pids = set()
+            for line in lines:
+                parts = line.split()
+                if len(parts) >= 5 and parts[1].endswith(f":{port}"):
+                    pids.add(int(parts[-1]))  # PID is in the last column
+            return list(pids)
+        else:
+            # Use lsof to find processes on the port (macOS/Linux)
+            result = subprocess.run(
+                ["lsof", "-t", "-i", f":{port}"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
+            pids = result.stdout.strip().split("\n")
+            return [int(pid) for pid in pids if pid.isdigit()]
     except Exception as e:
         print(f"Error finding PIDs for port {port}: {e}")
         return []
@@ -52,3 +69,6 @@ def killServers():
                 time.sleep(2)  # Delay to ensure other tasks finish
             print(f"Killing process with PID {pid} listening on port {port}...")
             kill_process(pid)
+
+# Uncomment this to run the script
+killServers()
