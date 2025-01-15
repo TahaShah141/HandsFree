@@ -71,4 +71,4 @@ def killServers():
             kill_process(pid)
 
 # Uncomment this to run the script
-# killServers()
+# killServers() 

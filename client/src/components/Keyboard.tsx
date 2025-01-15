@@ -65,6 +65,22 @@ export const Keyboard = () => {
       }
       return;
     }
+
+    if (modifiers.length === 1 && modifiers[0] === 'shift') {
+      fetch(`http://${window.location.hostname}:3000/shift`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          keys: [s],
+        }),
+      })
+      setKEYS(DefaultKEYS)
+      setHyperPressed(false)
+      setModifiersPressed([])
+      return;
+    }
     
     //default case of sending through
     fetch(`http://${window.location.hostname}:3000/keyboard`, {
@@ -79,6 +95,7 @@ export const Keyboard = () => {
     setKEYS(DefaultKEYS)
     setHyperPressed(false)
     setModifiersPressed([])
+    return;
   }
 
   return (
