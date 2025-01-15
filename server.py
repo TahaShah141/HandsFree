@@ -17,7 +17,7 @@ keymap = {
     "alt": Key.alt,
     "shift": Key.shift,
     "caps": Key.caps_lock,
-    "fn": Key.cmd_r,
+    "fn": Key.cmd,
     
     # Function keys
     "f1": Key.f1,
@@ -26,12 +26,12 @@ keymap = {
     "f4": Key.f4,
     "f5": Key.f5,
     "f6": Key.f6,
-    "f7": Key.f7,
-    "f8": Key.f8,
-    "f9": Key.f9,
-    "f10": Key.f10,
-    "f11": Key.f11,
-    "f12": Key.f12,
+    "f7": Key.media_previous,
+    "f8": Key.media_play_pause,
+    "f9": Key.media_next,
+    "f10": Key.media_volume_mute,
+    "f11": Key.media_volume_down,
+    "f12": Key.media_volume_up,
     
     # Navigation keys
     "up": Key.up,
@@ -115,4 +115,4 @@ def handle_keyboard():
 
 if __name__ == '__main__':
     displayIPAddress(port=5173)
-    app.run(host='0.0.0.0', port=3000)
+    app.run(host='0.0.0.0', port=3000, debug=True)
