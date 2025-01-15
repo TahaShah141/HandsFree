@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <div className='landscape:hidden h-screen flex flex-col justify-center items-center'>
-        <p>Turn Your Device Sideways</p>
+        <Keyboard />
       </div>
       <div className='p-4 hidden flex-col landscape:flex justify-center items-center h-screen'>
         <Keyboard />
