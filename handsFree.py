@@ -1,10 +1,12 @@
 import subprocess
 import sys
 import signal
+import threading
 
 # Define process placeholders
 server_process = None
 client_process = None
+shutdown_event = threading.Event()
 
 def run_servers():
     """Run backend and client servers."""
@@ -29,12 +31,12 @@ def run_servers():
             shell=(sys.platform == "win32"),  # Use shell=True for Windows
         )
 
-        # Wait for both processes to run indefinitely
+        # Wait for shutdown event
         print("Both servers are running. Press Ctrl+C to stop.")
-        signal.pause()  # Wait for interrupt signal (cross-platform)
+        shutdown_event.wait()
 
     except KeyboardInterrupt:
-        print("\nShutting down servers...")
+        print("\nReceived keyboard interrupt. Shutting down servers...")
         cleanup()
 
 def cleanup():
@@ -53,8 +55,8 @@ def cleanup():
 
 # Setup signal handling for graceful shutdown
 def setup_signal_handlers():
-    signal.signal(signal.SIGINT, lambda sig, frame: cleanup())  # Handle Ctrl+C
-    signal.signal(signal.SIGTERM, lambda sig, frame: cleanup())  # Handle termination signals
+    signal.signal(signal.SIGINT, lambda sig, frame: shutdown_event.set())  # Handle Ctrl+C
+    signal.signal(signal.SIGTERM, lambda sig, frame: shutdown_event.set())  # Handle termination signals
 
 if __name__ == "__main__":
     setup_signal_handlers()
