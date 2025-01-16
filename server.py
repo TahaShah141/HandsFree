@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 from pynput.keyboard import Controller as KeyboardController
 from flask_cors import CORS
-from displayQR import displayIPAddress
 from killServers import killServers
 from keymap import pGUIKeyMap, pynputKeyMap
 from pyautogui import hotkey

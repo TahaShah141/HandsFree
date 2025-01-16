@@ -2,6 +2,7 @@ import subprocess
 import sys
 import signal
 import threading
+from displayQR import displayIPAddress
 
 # Define process placeholders
 server_process = None
@@ -60,4 +61,5 @@ def setup_signal_handlers():
 
 if __name__ == "__main__":
     setup_signal_handlers()
+    displayIPAddress(port=1013)
     run_servers()
