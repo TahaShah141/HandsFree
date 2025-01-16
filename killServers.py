@@ -64,7 +64,7 @@ def killServers():
             continue
 
         for pid in pids:
-            if port == 3000 and len(pids) == 1:
+            if port == ports[1] and len(pids) == 1:
                 print(f"Delaying termination of server process on port {port} (PID: {pid}) until last.")
                 time.sleep(2)  # Delay to ensure other tasks finish
             print(f"Killing process with PID {pid} listening on port {port}...")
