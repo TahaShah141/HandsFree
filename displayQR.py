@@ -1,7 +1,7 @@
 import socket
 import qrcode
 
-def displayIPAddress(port=5173):
+def displayIPAddress(port=1013):
     try:
         # Get the local IPv4 address of the active network interface
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
