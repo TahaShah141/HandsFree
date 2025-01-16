@@ -19,13 +19,13 @@ export const Keyboard = () => {
     if (s === 'lock') {
 
       if (hyperPressed) {
-        fetch(`http://${window.location.hostname}:3000/kill`)
+        fetch(`http://${window.location.hostname}:1301/kill`)
         setTimeout(() => window.location.reload(), 500)
         return
       }
 
       console.log("locking")
-      fetch(`http://${window.location.hostname}:3000/keyboard`, {
+      fetch(`http://${window.location.hostname}:1301/keyboard`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ export const Keyboard = () => {
     }
 
     if (modifiers.length === 1 && modifiers[0] === 'shift') {
-      fetch(`http://${window.location.hostname}:3000/shift`, {
+      fetch(`http://${window.location.hostname}:1301/shift`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ export const Keyboard = () => {
     }
     
     //default case of sending through
-    fetch(`http://${window.location.hostname}:3000/keyboard`, {
+    fetch(`http://${window.location.hostname}:1301/keyboard`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

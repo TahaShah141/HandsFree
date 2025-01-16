@@ -55,7 +55,7 @@ def kill_process(pid):
 def killServers():
     """Kill all processes listening on ports 5173 and 3000."""
     # Prioritize port 5173
-    ports = [5173, 3000]
+    ports = [1013, 1301]
     for port in ports:
         print(f"Checking for processes on port {port}...")
         pids = get_pids_by_port(port)
@@ -71,4 +71,5 @@ def killServers():
             kill_process(pid)
 
 # Uncomment this to run the script
-# killServers() 
+if __name__ == "__main__":
+  killServers()
