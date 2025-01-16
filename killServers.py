@@ -8,9 +8,9 @@ def get_pids_by_port(port):
     """Find all PIDs listening on a specific port."""
     try:
         if platform.system() == "Windows":
-            # Use netstat and findstr to find processes on the port (Windows)
+            # Use netstat to find processes on the port (Windows)
             result = subprocess.run(
-                ["netstat", "-ano", "|", "findstr", f":{port}"],
+                f'netstat -ano | findstr ":{port}"',
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
@@ -53,9 +53,8 @@ def kill_process(pid):
         print(f"Error killing process with PID {pid}: {e}")
 
 def killServers():
-    """Kill all processes listening on ports 5173 and 3000."""
-    # Prioritize port 5173
-    ports = [1013, 1301]
+    """Kill all processes listening on specific ports."""
+    ports = [1013, 1301]  # Update to match your intended ports
     for port in ports:
         print(f"Checking for processes on port {port}...")
         pids = get_pids_by_port(port)
@@ -64,12 +63,9 @@ def killServers():
             continue
 
         for pid in pids:
-            if port == ports[1] and len(pids) == 1:
-                print(f"Delaying termination of server process on port {port} (PID: {pid}) until last.")
-                time.sleep(2)  # Delay to ensure other tasks finish
             print(f"Killing process with PID {pid} listening on port {port}...")
             kill_process(pid)
 
 # Uncomment this to run the script
 if __name__ == "__main__":
-  killServers()
+    killServers()
