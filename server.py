@@ -2,8 +2,7 @@ from flask import Flask, request, jsonify
 from pynput.keyboard import Controller as KeyboardController
 from flask_cors import CORS
 from killServers import killServers
-from keymap import pGUIKeyMap, pynputKeyMap
-from pyautogui import hotkey
+from keymap import pynputKeyMap
 
 app = Flask(__name__)
 CORS(app)
@@ -18,19 +17,6 @@ def test_route():
 def kill():
   killServers()
   
-@app.route('/shift', methods=['POST'])
-def handle_shift():
-  try:
-    data = request.json
-    keys = data.get('keys', [])  # List of keys to press in order
-    
-    k = keys[0]
-    
-    hotkey('shift', pGUIKeyMap[k])
-    return jsonify({"status": "success", "message": f"Keys {keys} pressed in order"}), 200
-  except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 500
-
 @app.route('/keyboard', methods=['POST'])
 def handle_keyboard():
     

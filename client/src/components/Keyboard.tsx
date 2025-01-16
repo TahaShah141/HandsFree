@@ -7,6 +7,7 @@ const modifiers = ['hyper', 'ctrl', 'fn', 'alt', 'cmd', 'shift']
 
 export const Keyboard = () => {
 
+  const [fnPressed, setFnPressed] = useState(false)
   const [hyperPressed, setHyperPressed] = useState(false)
   const [KEYS, setKEYS] = useState(DefaultKEYS)
   const [modifiersPressed, setModifiersPressed] = useState<string[]>([])
@@ -34,9 +35,11 @@ export const Keyboard = () => {
           keys: ['ctrl', 'alt', 'cmd', 'shift', 'escape'],
         }),
       })
-      setKEYS(DefaultKEYS)
-      setHyperPressed(false)
-      setModifiersPressed([])
+      if (!fnPressed) {
+        setKEYS(DefaultKEYS)
+        setHyperPressed(false)
+        setModifiersPressed([])
+      }
       return;
     }
 
@@ -45,14 +48,23 @@ export const Keyboard = () => {
 
       if (s === 'hyper') {
         if (hyperPressed) {
-          setHyperPressed(false)
           setKEYS(DefaultKEYS)
+          setHyperPressed(false)
           setModifiersPressed([])
+          setFnPressed(false)
         } else {
           setHyperPressed(true)
           const hyperKeys = ['ctrl', 'alt', 'cmd', 'shift']
           setModifiersPressed(hyperKeys)
           setKEYS(rows => rows.map(row => row.map(k => hyperKeys.find(h => h === k.keyCode[0]) || k.keyCode[0] === 'hyper' ? ({...k, pressed: true}) : k)))
+        }
+      } else if (s === 'fn') {
+        setFnPressed(!fnPressed)
+        setKEYS(rows => rows.map(row => row.map(k => k.keyCode[0] === s ? ({...k, pressed: !k.pressed}) : k)))
+        if (fnPressed) {
+          setKEYS(DefaultKEYS)
+          setHyperPressed(false)
+          setModifiersPressed([])
         }
       } else {
         setHyperPressed(false)
@@ -66,22 +78,6 @@ export const Keyboard = () => {
       return;
     }
 
-    if (modifiers.length === 1 && modifiers[0] === 'shift') {
-      fetch(`http://${window.location.hostname}:1301/shift`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          keys: [s],
-        }),
-      })
-      setKEYS(DefaultKEYS)
-      setHyperPressed(false)
-      setModifiersPressed([])
-      return;
-    }
-    
     //default case of sending through
     fetch(`http://${window.location.hostname}:1301/keyboard`, {
       method: 'POST',
@@ -92,9 +88,11 @@ export const Keyboard = () => {
         keys: [...modifiersPressed, s],
       }),
     })
-    setKEYS(DefaultKEYS)
-    setHyperPressed(false)
-    setModifiersPressed([])
+    if (!fnPressed) {
+      setKEYS(DefaultKEYS)
+      setHyperPressed(false)
+      setModifiersPressed([])
+    }
     return;
   }
 
