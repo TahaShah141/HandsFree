@@ -1,7 +1,5 @@
-import os
 import psutil
 import subprocess
-import time
 import platform
 
 def get_pids_by_port(port):
