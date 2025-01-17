@@ -12,10 +12,8 @@ export const Keyboard = () => {
   const [KEYS, setKEYS] = useState(DefaultKEYS)
   const [modifiersPressed, setModifiersPressed] = useState<string[]>([])
 
-  const handleClick = (str: string[]) => {
+  const handleClick = (s: string) => {
     
-    const s = str[0]
-
     //use power key
     if (s === 'lock') {
 

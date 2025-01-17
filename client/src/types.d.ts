@@ -2,9 +2,9 @@ export type KeyType = {
   width?: number
   display?: React.ReactNode | string
   pressed?: boolean
-  keyCode: string[]
+  keyCode: string
 }
 
 export type CanClick = {
-  onClick: (s: string[]) => void
+  onClick: (s: string) => void
 }
