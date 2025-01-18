@@ -54,11 +54,11 @@ export const Keyboard = () => {
           setHyperPressed(true)
           const hyperKeys = ['ctrl', 'alt', 'cmd', 'shift']
           setModifiersPressed(hyperKeys)
-          setKEYS(rows => rows.map(row => row.map(k => hyperKeys.find(h => h === k.keyCode[0]) || k.keyCode[0] === 'hyper' ? ({...k, pressed: true}) : k)))
+          setKEYS(rows => rows.map(row => row.map(k => hyperKeys.find(h => h === k.keyCode) || k.keyCode === 'hyper' ? ({...k, pressed: true}) : k)))
         }
       } else if (s === 'fn') {
         setFnPressed(!fnPressed)
-        setKEYS(rows => rows.map(row => row.map(k => k.keyCode[0] === s ? ({...k, pressed: !k.pressed}) : k)))
+        setKEYS(rows => rows.map(row => row.map(k => k.keyCode === s ? ({...k, pressed: !k.pressed}) : k)))
         if (fnPressed) {
           setKEYS(DefaultKEYS)
           setHyperPressed(false)
@@ -66,7 +66,7 @@ export const Keyboard = () => {
         }
       } else {
         setHyperPressed(false)
-        setKEYS(rows => rows.map(row => row.map(k => k.keyCode[0] === s || k.keyCode[0] === 'hyper' ? ({...k, pressed: k.keyCode[0] === 'hyper' ? false : !k.pressed}) : k)))
+        setKEYS(rows => rows.map(row => row.map(k => k.keyCode === s || k.keyCode === 'hyper' ? ({...k, pressed: k.keyCode === 'hyper' ? false : !k.pressed}) : k)))
         if (modifiersPressed.find(m => m === s)) {
           setModifiersPressed(m => m.filter(k => k !== s))
         } else {
