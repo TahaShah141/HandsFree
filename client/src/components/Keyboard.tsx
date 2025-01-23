@@ -112,7 +112,7 @@ export const Keyboard = () => {
   }
 
   return (
-    <div className="flex flex-col portrait:rotate-90 landscape:scale-[50%] landscape:sm:scale-75 landscape:md:scale-100 justify-center items-center gap-2">
+    <div className="flex flex-col portrait:-rotate-90 landscape:scale-[50%] landscape:sm:scale-75 landscape:md:scale-100 justify-center items-center gap-2">
       <div className="p-1 w-fit flex flex-col gap-1 rounded-md bg-slate-800">
         {KEYS.map((row, i) => (
           <div className="flex gap-1">
