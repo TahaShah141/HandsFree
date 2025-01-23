@@ -147,7 +147,7 @@ const stackedKey = (symbols: string[]): KeyType => {
   return ({
     keyCode: symbols[1],
     width: 1,
-    display: <div className="size-full flex flex-col-reverse justify-center items-center">{symbols.map(s => <p>{s}</p>)}</div>
+    display: <div className="size-full flex flex-col-reverse justify-center items-center">{symbols.reverse().map(s => <p>{s}</p>)}</div>
   })
 }
 
