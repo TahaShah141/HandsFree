@@ -5,6 +5,8 @@ export type KeyType = {
   keyCode: string
 }
 
+export type Direction = "up" | "down" | "left" | "right"
+
 export type CanClick = {
   onClick: (s: string) => void
 }

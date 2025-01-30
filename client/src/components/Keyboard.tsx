@@ -1,11 +1,16 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { KEYS as DefaultKEYS } from "../KEYS"
 import { ArrowKeys } from "./ArrowKeys"
 import { Key } from "./Key"
 
 const modifiers = ['hyper', 'ctrl', 'fn', 'alt', 'cmd', 'shift']
 
-export const Keyboard = () => {
+type KeyboardProps = {
+  log?: string
+  setIsSwiping?: (b: boolean) => void
+}
+
+export const Keyboard = ({log="", setIsSwiping=()=>{}}: KeyboardProps) => {
 
   const [fnPressed, setFnPressed] = useState(false)
   const [hyperPressed, setHyperPressed] = useState(false)
@@ -111,12 +116,16 @@ export const Keyboard = () => {
     return;
   }
 
+  useEffect(() => {
+    setIsSwiping(!fnPressed)
+  }, [fnPressed])
+
   return (
     <div className="flex flex-col portrait:-rotate-90 landscape:scale-[50%] landscape:sm:scale-75 landscape:md:scale-100 justify-center items-center gap-2">
       <div className="p-1 w-fit flex flex-col gap-1 rounded-md bg-slate-800">
         {KEYS.map((row, i) => (
           <div className="flex gap-1">
-            {row.map(k => <Key {...k} onClick={handleClick} />)}
+            {row.map(k => <Key {...k} display={k.keyCode === 'space' ? log : k.display} onClick={handleClick} />)}
             {i === KEYS.length - 1 && <ArrowKeys onClick={handleClick} />}
           </div>
         ))}
