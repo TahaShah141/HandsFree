@@ -32,22 +32,23 @@ const SwipeArea: React.FC<SwipeAreaProps> = ({
       swipeRef.current.style.touchAction = "pan-y"; // Allows vertical scrolling
     }
 
-    // Function to calculate dynamic scroll amount based on swipe velocity
-    const calculateScrollAmount = (velocity: number) => {
-      const scalingFactor = 25;
-      return Math.min(Math.abs(velocity * scalingFactor), 500); // Limit max scroll
+    // Function to calculate dynamic scroll amount based on velocity and distance
+    const calculateScrollAmount = (velocity: number, distance: number) => {
+      const d = Math.abs(distance)
+      const v = Math.abs(velocity/2)
+      return d*v + 20; // Limit max scroll
     };
 
-    hammer.on("swipeleft", (event) => onSwipeLeft(calculateScrollAmount(event.velocityX)));
-    hammer.on("swiperight", (event) => onSwipeRight(calculateScrollAmount(event.velocityX)));
-    hammer.on("swipeup", (event) => onSwipeUp(calculateScrollAmount(event.velocityY)));
-    hammer.on("swipedown", (event) => onSwipeDown(calculateScrollAmount(event.velocityY)));
+    hammer.on("swipeleft", (event) => onSwipeLeft(calculateScrollAmount(event.velocityX, event.deltaX)));
+    hammer.on("swiperight", (event) => onSwipeRight(calculateScrollAmount(event.velocityX, event.deltaX)));
+    hammer.on("swipeup", (event) => onSwipeUp(calculateScrollAmount(event.velocityY, event.deltaY)));
+    hammer.on("swipedown", (event) => onSwipeDown(calculateScrollAmount(event.velocityY, event.deltaY)));
 
     return () => hammer.destroy();
   }, [isSwiping, onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown]);
 
   return (
-    <div ref={swipeRef} className={`p-2 items-center justify-center`}>
+    <div ref={swipeRef} className="p-2 items-center justify-center">
       {children}
     </div>
   );

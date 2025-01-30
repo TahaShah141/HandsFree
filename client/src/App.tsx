@@ -6,7 +6,7 @@ import { Direction } from './types'
 
 function App() {
 
-  const [swiped, setSwiped] = useState("None")
+  const [_swiped, setSwiped] = useState("None")
 
   const sendScrollRequest = (direction: Direction, magnitude: number) => {
     setSwiped(`${direction} ${magnitude}`)
@@ -22,8 +22,8 @@ function App() {
     })
   }
 
-  const onSwipeUp = (scrollAmount: number) => sendScrollRequest("up", scrollAmount)
-  const onSwipeDown = (scrollAmount: number) => sendScrollRequest("down", scrollAmount)
+  const onSwipeUp = (scrollAmount: number) => sendScrollRequest("down", scrollAmount)
+  const onSwipeDown = (scrollAmount: number) => sendScrollRequest("up", scrollAmount)
   const onSwipeRight = (scrollAmount: number) => sendScrollRequest("right", scrollAmount)
   const onSwipeLeft = (scrollAmount: number) => sendScrollRequest("left", scrollAmount)
 
