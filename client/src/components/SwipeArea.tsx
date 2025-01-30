@@ -36,6 +36,8 @@ const SwipeArea: React.FC<SwipeAreaProps> = ({
     const calculateScrollAmount = (velocity: number, distance: number) => {
       const d = Math.abs(distance)
       const v = Math.abs(velocity/2)
+
+      if (d < 200) return d/2;
       return d*v + 20; // Limit max scroll
     };
 

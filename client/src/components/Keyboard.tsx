@@ -117,7 +117,7 @@ export const Keyboard = ({log="", setIsSwiping=()=>{}}: KeyboardProps) => {
   }
 
   useEffect(() => {
-    setIsSwiping(!fnPressed)
+    setIsSwiping(fnPressed)
   }, [fnPressed])
 
   return (

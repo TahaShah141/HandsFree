@@ -27,7 +27,7 @@ function App() {
   const onSwipeRight = (scrollAmount: number) => sendScrollRequest("right", scrollAmount)
   const onSwipeLeft = (scrollAmount: number) => sendScrollRequest("left", scrollAmount)
 
-  const [isSwiping, setIsSwiping] = useState(false)
+  const [isSwiping, setIsSwiping] = useState(true)
 
   return (
     <SwipeArea isSwiping={isSwiping} onSwipeDown={onSwipeDown} onSwipeLeft={onSwipeLeft} onSwipeRight={onSwipeRight} onSwipeUp={onSwipeUp}>
