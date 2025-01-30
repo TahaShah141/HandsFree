@@ -77,15 +77,18 @@ def handle_scroll():
         data = request.json
         direction = data.get('direction')
         magnitude = int(data.get('magnitude', 0))  # Ensure magnitude is an integer
-        step_size = 1 # Small step per scroll
-        delay = 0.008  # Delay for smooth effect
+        step_size = 2 # Small step per scroll
+        
+        steps = abs(magnitude) // step_size
+        maxTime = 0.1
+        maxDelay = 0.008
+        delay = min(maxTime / max(steps, 1), maxDelay)
 
         if direction not in ['up', 'down', 'left', 'right']:
             return jsonify({"status": "error", "message": "Invalid direction. Use 'up', 'down', 'left', or 'right'"}), 400
 
         # Determine scroll step (positive for up/right, negative for down/left)
         step = step_size if direction in ['up', 'right'] else -step_size
-        steps = abs(magnitude) // step_size  # Number of small scrolls
 
         # Perform smooth scrolling
         for _ in range(steps):
@@ -101,4 +104,5 @@ def handle_scroll():
         return jsonify({"status": "error", "message": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=1301, debug=True)
+    # app.run(host='0.0.0.0', port=1301, debug=True)
+    app.run(host='0.0.0.0', port=1301)
