@@ -37,8 +37,8 @@ const SwipeArea: React.FC<SwipeAreaProps> = ({
       const d = Math.abs(distance)
       const v = Math.abs(velocity/2)
 
-      if (d < 200) return d/2;
-      return d*v + 20; // Limit max scroll
+      if (d < 200) return d/3;
+      else return d*v + 20; // Limit max scroll
     };
 
     hammer.on("swipeleft", (event) => onSwipeLeft(calculateScrollAmount(event.velocityX, event.deltaX)));

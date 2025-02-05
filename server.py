@@ -20,6 +20,13 @@ def test_route():
 @app.route('/kill', methods=['GET'])
 def kill():
     killServers()
+    
+@app.route('/text', methods=['POST'])
+def type():
+  data = request.json
+  text = data.get('text', '')
+  keyboard.type(text)
+  return jsonify({"status": "success", "message": f"Text '{text}' typed"}), 200
 
 @app.route('/shift', methods=['POST'])
 def handle_shift():
