@@ -12,6 +12,7 @@ type KeyboardProps = {
 
 export const Keyboard = ({log="", setIsSwiping=()=>{}}: KeyboardProps) => {
 
+  const [flipped, setFlipped] = useState(false)
   const [fnPressed, setFnPressed] = useState(false)
   const [hyperPressed, setHyperPressed] = useState(false)
   const [KEYS, setKEYS] = useState(DefaultKEYS)
@@ -21,11 +22,15 @@ export const Keyboard = ({log="", setIsSwiping=()=>{}}: KeyboardProps) => {
 
   const handleClick = (s: string) => {
 
-    if (s === 'space' && fnPressed && modifiersPressed.length === 0) {
-      setTyping(true)
+    if (fnPressed && modifiersPressed.length === 0) {
+      if (s === 'space') {
+        setTyping(true)
+      }
+      if (s === '/') {
+        setFlipped(!flipped)
+      }
       setFnPressed(false)
       setKEYS(DefaultKEYS)
-      setModifiersPressed([])
       return;
     }
 
@@ -165,7 +170,7 @@ export const Keyboard = ({log="", setIsSwiping=()=>{}}: KeyboardProps) => {
         <textarea className="text-3xl p-2 text-white font-mono focus:outline-none bg-black flex-1" placeholder="Type Here..." value={text} onChange={(e) => setText(e.target.value)} autoFocus />
       </div>}
       {!typing && 
-      <div className="flex flex-col portrait:-rotate-90 landscape:scale-[50%] landscape:sm:scale-75 landscape:md:scale-100 justify-center items-center gap-2">
+      <div className={`flex flex-col ${flipped ? "portrait:rotate-90" : "portrait:-rotate-90"} landscape:scale-[50%] landscape:sm:scale-75 landscape:md:scale-100 justify-center items-center gap-2`}>
         <div className="p-1 w-fit flex flex-col gap-1 rounded-md bg-slate-800">
           {KEYS.map((row, i) => (
             <div className="flex gap-1">
