@@ -17,14 +17,14 @@ export const Keyboard = ({log="", setIsSwiping=()=>{}}: KeyboardProps) => {
   const [hyperPressed, setHyperPressed] = useState(false)
   const [KEYS, setKEYS] = useState(DefaultKEYS)
   const [modifiersPressed, setModifiersPressed] = useState<string[]>([])
-  const [typing, setTyping] = useState(false)
+  const [state, setState] = useState("KEYBOARD")
   const [text, setText] = useState("")
 
   const handleClick = (s: string) => {
 
     if (fnPressed && modifiersPressed.length === 0) {
       if (s === 'space') {
-        setTyping(true)
+        setState("TYPING")
       }
       if (s === '/') {
         setFlipped(!flipped)
@@ -136,7 +136,7 @@ export const Keyboard = ({log="", setIsSwiping=()=>{}}: KeyboardProps) => {
   }, [fnPressed])
 
   const cancelText = () => {
-    setTyping(false)
+    setState("KEYBOARD")
     setText("")
   }
 
@@ -150,13 +150,31 @@ export const Keyboard = ({log="", setIsSwiping=()=>{}}: KeyboardProps) => {
         text,
       }),
     })
-    setTyping(false)  
+    setState("KEYBOARD")
     setText("")
   }
 
   return (
     <>
-      {typing && 
+      {state === "HELP" && 
+      <div onClick={() => setState("KEYBOARD")} className="flex h-screen w-full gap-2 justify-center items-center">
+        <div className="flex relative text-sm flex-col items-center justify-center bg-neutral-900 rounded-md p-4 gap-2">
+        <h1 className="text-3xl font-bold">Info</h1>
+        <p>This virtual keyboard, developed by Taha Shah, allows wireless control of a Mac (or any laptop) from a web-accessible device.</p>
+        <p>Usage is simple—press keys as on a normal keyboard. Modifier keys toggle when tapped.</p>
+        <p className="text-xl font-bold">Extra shortcuts:</p>
+        <ul>
+          <li className="before:content-['•'] before:mr-1"><b>fn</b>: Keeps modifiers active after a shortcut.</li>
+          <li className="before:content-['•'] before:mr-1"><b>caps_lock (hyperkey)</b>: Toggles all modifiers.</li>
+          <li className="before:content-['•'] before:mr-1"><b>fn + space</b>: Opens typing mode for faster input.</li>
+          <li className="before:content-['•'] before:mr-1"><b>fn</b>: Enables swipe gestures for mouse scroll.</li>
+          <li className="before:content-['•'] before:mr-1"><b>hyper + power</b>: Shuts down both servers, exiting the app.</li>
+          <li className="before:content-['•'] before:mr-1"><b>fn + /</b>: Flips the keyboard.</li>
+          <li className="before:content-['•'] before:mr-1"><b>Power button</b>: Locks Mac (if <b>hyper + esc</b> is set).</li>
+        </ul>
+        </div>
+      </div>}
+      {state === "TYPING" && 
       <div className="flex flex-col h-screen gap-2">
         <div className="flex justify-between items-center gap-2">
             <button className="size-8" onClick={cancelText}>
@@ -169,11 +187,11 @@ export const Keyboard = ({log="", setIsSwiping=()=>{}}: KeyboardProps) => {
         </div>
         <textarea className="text-3xl p-2 text-white font-mono focus:outline-none bg-black flex-1" placeholder="Type Here..." value={text} onChange={(e) => setText(e.target.value)} autoFocus />
       </div>}
-      {!typing && 
+      {state === "KEYBOARD" && 
       <div className={`flex relative flex-col transition-transform duration-500 ${flipped ? "portrait:rotate-90" : "portrait:-rotate-90"} landscape:scale-[50%] landscape:sm:scale-75 landscape:md:scale-100 justify-center items-center gap-2`}>
-        {/* <div className="absolute size-4 -top-0 -translate-y-full -translate-x-full -left-0 text-white">
+        <button onClick={() => setState("HELP")} className="absolute size-4 -top-0 -translate-y-full -translate-x-full -left-0 text-neutral-800">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M11.95 18q.525 0 .888-.363t.362-.887t-.362-.888t-.888-.362t-.887.363t-.363.887t.363.888t.887.362m-.9-3.85h1.85q0-.825.188-1.3t1.062-1.3q.65-.65 1.025-1.238T15.55 8.9q0-1.4-1.025-2.15T12.1 6q-1.425 0-2.312.75T8.55 8.55l1.65.65q.125-.45.563-.975T12.1 7.7q.8 0 1.2.438t.4.962q0 .5-.3.938t-.75.812q-1.1.975-1.35 1.475t-.25 1.825M12 22q-2.075 0-3.9-.787t-3.175-2.138T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8"/></svg>
-        </div> */}
+        </button>
         <div className="p-1 w-fit flex flex-col gap-1 rounded-md bg-slate-800">
           {KEYS.map((row, i) => (
             <div className="flex gap-1">
