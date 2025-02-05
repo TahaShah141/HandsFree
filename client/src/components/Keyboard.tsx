@@ -21,7 +21,7 @@ export const Keyboard = ({log="", setIsSwiping=()=>{}}: KeyboardProps) => {
 
   const handleClick = (s: string) => {
 
-    if (s === 'space' && fnPressed) {
+    if (s === 'space' && fnPressed && modifiersPressed.length === 0) {
       setTyping(true)
       setFnPressed(false)
       setKEYS(DefaultKEYS)
