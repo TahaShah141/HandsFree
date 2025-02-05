@@ -145,6 +145,7 @@ export const Keyboard = ({log="", setIsSwiping=()=>{}}: KeyboardProps) => {
         text,
       }),
     })
+    setTyping(false)  
     setText("")
   }
 
