@@ -16,7 +16,7 @@ export const Keyboard = ({log="", setIsSwiping=()=>{}}: KeyboardProps) => {
   const [hyperPressed, setHyperPressed] = useState(false)
   const [KEYS, setKEYS] = useState(DefaultKEYS)
   const [modifiersPressed, setModifiersPressed] = useState<string[]>([])
-  const [typing, setTyping] = useState(true)
+  const [typing, setTyping] = useState(false)
   const [text, setText] = useState("")
 
   const handleClick = (s: string) => {
