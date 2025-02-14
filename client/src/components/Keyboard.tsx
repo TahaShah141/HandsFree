@@ -22,7 +22,7 @@ export const Keyboard = ({log="", setIsSwiping=()=>{}}: KeyboardProps) => {
 
   const handleClick = (s: string) => {
 
-    if (fnPressed && modifiersPressed.length === 0) {
+    if (fnPressed && modifiersPressed.length === 0 && !modifiers.find(m => m === s)) {
       if (s === 'space') {
         setState("TYPING")
       }
@@ -86,7 +86,7 @@ export const Keyboard = ({log="", setIsSwiping=()=>{}}: KeyboardProps) => {
         }
       } else {
         setHyperPressed(false)
-        setKEYS(rows => rows.map(row => row.map(k => k.keyCode === s || k.keyCode === 'hyper' ? ({...k, pressed: k.keyCode === 'hyper' ? false : !k.pressed}) : k)))
+        setKEYS(rows => rows.map(row => row.map(k => k.keyCode === s || k.keyCode === 'hyper' || k.keyCode === 'fn' ? ({...k, pressed: k.keyCode === 'hyper' ? false : k.keyCode === 'fn' ? fnPressed : !k.pressed}) : k)))
         if (modifiersPressed.find(m => m === s)) {
           setModifiersPressed(m => m.filter(k => k !== s))
         } else {
