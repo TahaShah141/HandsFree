@@ -44,7 +44,25 @@ export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}}: Keyboard
     setLoadingImage(false)
   }
 
-  const clickScreen = async (e: React.MouseEvent<HTMLImageElement>) => {
+  const clickScreen = async (e?: React.MouseEvent<HTMLImageElement>) => {
+
+    if (!e) {
+      await fetch(`http://${window.location.hostname}:1301/click`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          y: -1,
+          x: -1,
+          clicking: true
+        }),
+      })
+
+      setTimeout(() => updateScreenShot(), 100)
+      return;
+    }
+
     const img = e.target as HTMLImageElement
 
     const clickX = e.nativeEvent.offsetX / img.width
@@ -63,7 +81,7 @@ export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}}: Keyboard
     })
 
     // if (clicking) updateScreenShot()
-    if (clicking) setTimeout(() => updateScreenShot(), 50)
+    if (clicking) setTimeout(() => updateScreenShot(), 100)
   }
 
   const handleClick = (s: string) => {
@@ -77,7 +95,8 @@ export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}}: Keyboard
       }
       if (s === 'lock') {
         changeState("CLICK")
-        if (!img) updateScreenShot()
+        setClicking(true)
+        updateScreenShot()
       }
       setFnPressed(false)
       setKEYS(DefaultKEYS)
@@ -258,8 +277,8 @@ export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}}: Keyboard
       <div onClick={() => changeState("KEYBOARD")} className={`flex size-full justify-center items-center p-6 gap-2 ${flipped && "portrait:rotate-180"}`}>
         {loadingImage && !img ? 
         <p className="portrait:-rotate-90 animate-pulse">Loading Screenshot...</p> :
-        <div onClick={(e) => {e.stopPropagation()}} className="flex portrait:flex-col landscape:flex-row-reverse justify-center items-center gap-2">
-          <div className="flex landscape:flex-col gap-2 p-2 justify-between w-full">
+        <div onClick={(e) => {e.stopPropagation()}} className="flex portrait:flex-col landscape:flex-row-reverse justify-center portrait:items-center gap-2">
+          <div className="flex landscape:flex-col gap-2 p-2 justify-between portrait:w-full">
             <div className="flex landscape:flex-col gap-2">
               <button onClick={() => changeState("KEYBOARD")} className="size-12 portrait:-rotate-90 bg-neutral-800 p-2 border-neutral-600 border-2 rounded-md">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12z"/></svg>
@@ -269,9 +288,14 @@ export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}}: Keyboard
               </button>            
             </div>
             
-            <button onClick={() => changeState("TYPING")} className="size-12 portrait:-rotate-90 bg-neutral-800 p-2 border-neutral-600 border-2 rounded-md">
-              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M6 16h12v2H6zm0-3v2H2v-2zm1 2v-2h3v2zm4 0v-2h2v2zm3 0v-2h3v2zm4 0v-2h4v2zM2 10h3v2H2zm17 2v-2h3v2zm-1 0h-2v-2h2zM8 12H6v-2h2zm4 0H9v-2h3zm3 0h-2v-2h2zM2 9V7h2v2zm3 0V7h2v2zm3 0V7h2v2zm3 0V7h2v2zm3 0V7h2v2zm3 0V7h5v2z"/></svg>
-            </button>            
+            <div className="flex landscape:flex-col gap-2">
+              <button onClick={() => changeState("TYPING")} className="size-12 portrait:-rotate-90 bg-neutral-800 p-2 border-neutral-600 border-2 rounded-md">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M6 16h12v2H6zm0-3v2H2v-2zm1 2v-2h3v2zm4 0v-2h2v2zm3 0v-2h3v2zm4 0v-2h4v2zM2 10h3v2H2zm17 2v-2h3v2zm-1 0h-2v-2h2zM8 12H6v-2h2zm4 0H9v-2h3zm3 0h-2v-2h2zM2 9V7h2v2zm3 0V7h2v2zm3 0V7h2v2zm3 0V7h2v2zm3 0V7h2v2zm3 0V7h5v2z"/></svg>
+              </button>
+              <button onClick={() => clickScreen()} className="size-12 portrait:-rotate-90 bg-neutral-800 p-2 border-neutral-600 border-2 rounded-md">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M12 9a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3m7 10h-4v2h4a2 2 0 0 0 2-2v-4h-2m0-12h-4v2h4v4h2V5a2 2 0 0 0-2-2M5 5h4V3H5a2 2 0 0 0-2 2v4h2m0 6H3v4a2 2 0 0 0 2 2h4v-2H5z"/></svg>
+              </button>
+            </div>
 
             <div className="flex landscape:flex-col gap-2">
               <button onClick={() => setClicking(!clicking)} className={`size-12 portrait:-rotate-90 bg-neutral-800 p-2 border-2 rounded-md ${clicking ? "text-white border-white" : "text-neutral-400 border-neutral-600"}`}>

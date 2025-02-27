@@ -55,6 +55,10 @@ def handle_click():
         x_percent = float(data.get("x", 0))
         y_percent = float(data.get("y", 0))
         clicking = False if data.get("clicking", 0) == 0 else True
+        
+        if x_percent == -1 and y_percent == -1:
+            click()
+            return jsonify({"status": "success", "message": "Clicked"}), 200
 
         # Get the screen size
         screen_width, screen_height = size()

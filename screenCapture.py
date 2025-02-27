@@ -7,7 +7,7 @@ def updateScreenshot(rotated, path="./client/public/screen.png"):
     """Captures the screen and saves the image to the given path."""
     try:
         # Capture screenshot
-        subprocess.run(["screencapture", path])
+        subprocess.run(["screencapture", "-x", path])
         print(f"Screenshot saved to {path}")
         img = Image.open(path)
         height, width = img.size
