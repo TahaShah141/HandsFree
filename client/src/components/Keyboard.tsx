@@ -23,7 +23,7 @@ export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}}: Keyboard
   const [text, setText] = useState("")
   const [img, setImg] = useState("")
   const [loadingImage, setLoadingImage] = useState(false)
-  const [clicking, setClicking] = useState(false)
+  const [clicking, setClicking] = useState(true)
   const [isPortrait, setIsPortrait] = useState(false)
 
   useEffect(() => {
@@ -62,7 +62,8 @@ export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}}: Keyboard
       }),
     })
 
-    if (clicking) setTimeout(() => updateScreenShot(), 300)
+    // if (clicking) updateScreenShot()
+    if (clicking) setTimeout(() => updateScreenShot(), 50)
   }
 
   const handleClick = (s: string) => {

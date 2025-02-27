@@ -9,12 +9,16 @@ def updateScreenshot(rotated, path="./client/public/screen.png"):
         # Capture screenshot
         subprocess.run(["screencapture", path])
         print(f"Screenshot saved to {path}")
+        img = Image.open(path)
+        height, width = img.size
+        max_size = (height // 2, width // 2)  # Resize to half the size
+        print(img.size, max_size)
         
+        img.thumbnail(max_size, Image.LANCZOS)
         if rotated:
             # Open image and rotate
-            img = Image.open(path)
             img = img.rotate(90, expand=True)  # Rotate counterclockwise for correct orientation
-            img.save(path)
+        img.save(path, quality=75)  # Save the image
     except Exception as e:
         print(f"Error capturing screenshot: {e}")
 
