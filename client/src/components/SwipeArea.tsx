@@ -34,6 +34,8 @@ const SwipeArea: React.FC<SwipeAreaProps> = ({
 
     // Function to calculate dynamic scroll amount based on velocity and distance
     const calculateScrollAmount = (velocity: number, distance: number) => {
+      if (!isSwiping) return 0;
+      
       const d = Math.abs(distance)
       const v = Math.abs(velocity/2)
 

@@ -9,6 +9,7 @@ function App() {
   const [_swiped, setSwiped] = useState("None")
 
   const sendScrollRequest = (direction: Direction, magnitude: number) => {
+    if (magnitude == 0) return;
     setSwiped(`${direction} ${magnitude}`)
     fetch(`http://${window.location.hostname}:1301/scroll`, {
       method: 'POST',
@@ -33,10 +34,10 @@ function App() {
     <SwipeArea isSwiping={isSwiping} onSwipeDown={onSwipeDown} onSwipeLeft={onSwipeLeft} onSwipeRight={onSwipeRight} onSwipeUp={onSwipeUp}>
       <>
       <div className='landscape:hidden h-screen flex flex-col justify-center items-center'>
-        <Keyboard setIsSwiping={setIsSwiping}/>
+        <Keyboard setIsSwiping={setIsSwiping} isSwiping={isSwiping}/>
       </div>
       <div className='p-4 hidden flex-col landscape:flex justify-center items-center h-screen'>
-        <Keyboard setIsSwiping={setIsSwiping}/>
+        <Keyboard setIsSwiping={setIsSwiping} isSwiping={isSwiping}/>
       </div>
       </>
     </SwipeArea>

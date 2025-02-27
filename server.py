@@ -5,7 +5,8 @@ from pynput.mouse import Controller as MouseController  # Added for scrolling
 from flask_cors import CORS
 from killServers import killServers
 from keymap import pynputKeyMap, pyGUIKeyMap
-from pyautogui import hotkey
+from pyautogui import hotkey, size, moveTo, click
+from screenCapture import captureScreen, updateScreenshot
 
 app = Flask(__name__)
 CORS(app)
@@ -38,6 +39,40 @@ def handle_shift():
         return jsonify({"status": "success", "message": f"Keys {keys} pressed in order"}), 200
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
+      
+@app.route('/screen', methods=['GET'])
+def get_screenshot():
+    rotate_param = request.args.get('rotate', 'false').lower()    
+    rotate = rotate_param == 'true'
+    updateScreenshot(rotated=rotate)
+    return jsonify({"message": "Screenshot Captured!"}), 200
+
+@app.route('/click', methods=['POST'])
+def handle_click():
+    """ Moves the mouse to a given (x, y) percentage position and clicks. """
+    try:
+        data = request.json
+        x_percent = float(data.get("x", 0))
+        y_percent = float(data.get("y", 0))
+        clicking = False if data.get("clicking", 0) == 0 else True
+
+        # Get the screen size
+        screen_width, screen_height = size()
+
+        # Convert percentages to absolute pixel coordinates
+        x_absolute = int(x_percent * screen_width)
+        y_absolute = int(y_percent * screen_height)
+        
+        print("Clicking", x_absolute, y_absolute)
+
+        # Move the mouse and click
+        moveTo(x_absolute, y_absolute)
+        if clicking: click()
+
+        return jsonify({"status": "success", "x": x_absolute, "y": y_absolute}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
 
 @app.route('/keyboard', methods=['POST'])
 def handle_keyboard():
@@ -111,5 +146,5 @@ def handle_scroll():
         return jsonify({"status": "error", "message": str(e)}), 500
 
 if __name__ == '__main__':
-    # app.run(host='0.0.0.0', port=1301, debug=True)
-    app.run(host='0.0.0.0', port=1301)
+    app.run(host='0.0.0.0', port=1301, debug=True)
+    # app.run(host='0.0.0.0', port=1301)
