@@ -1,4 +1,5 @@
-import { useEffect, useRef, ReactNode } from "react";
+import { ReactNode, useEffect, useRef } from "react";
+
 import Hammer from "hammerjs";
 
 interface SwipeAreaProps {
@@ -26,11 +27,11 @@ const SwipeArea: React.FC<SwipeAreaProps> = ({
     const hammer = new Hammer(swipeRef.current);
     hammer.get("swipe").set({ direction: Hammer.DIRECTION_ALL });
 
-    if (!isSwiping) {
-      // Enable normal scrolling while detecting swipes
-      hammer.get("swipe").set({ enable: true });
-      swipeRef.current.style.touchAction = "pan-y"; // Allows vertical scrolling
-    }
+    // if (!isSwiping) {
+    //   // Enable normal scrolling while detecting swipes
+    //   hammer.get("swipe").set({ enable: true });
+    //   swipeRef.current.style.touchAction = "pan-y"; // Allows vertical scrolling
+    // }
 
     // Function to calculate dynamic scroll amount based on velocity and distance
     const calculateScrollAmount = (velocity: number, distance: number) => {
@@ -52,7 +53,7 @@ const SwipeArea: React.FC<SwipeAreaProps> = ({
   }, [isSwiping, onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown]);
 
   return (
-    <div ref={swipeRef} className="p-2 items-center justify-center">
+    <div ref={swipeRef} className="mx-8 bg-black items-center justify-center">
       {children}
     </div>
   );
