@@ -40,9 +40,14 @@ export const Mouse = ({ changeState, flipped, isSwiping, setIsSwiping }: MousePr
     const imgRect = imgRef.current.getBoundingClientRect();
     const relativeX = clientX - imgRect.left;
     const relativeY = clientY - imgRect.top;
-  
-    setMagnifierX(relativeX - (isPortrait ? magnifierSize : magnifierSize / 2));
-    setMagnifierY(relativeY - (!isPortrait ? magnifierSize : magnifierSize / 2));
+ 
+    const magX = relativeX + (flipped ? 1 : -1) * (isPortrait ? magnifierSize : magnifierSize / 2)
+    const magY = relativeY + (flipped ? 1 : -1) * (!isPortrait ? magnifierSize : magnifierSize / 2)
+    const W = imgRef.current.width
+    const H = imgRef.current.height
+
+    setMagnifierX(flipped ? W - magX : magX);
+    setMagnifierY(flipped ? H - magY : magY);
     setTimeout(() => setShowMagnifier(true), 100);
     setDragging(true);
   };
@@ -119,7 +124,7 @@ export const Mouse = ({ changeState, flipped, isSwiping, setIsSwiping }: MousePr
       },
       body: JSON.stringify({
         y: isPortrait ? clickX : clickY,
-        x: isPortrait ?  1 - clickY : clickX,
+        x: isPortrait ? 1 - clickY : clickX,
         clicking
       }),
     })
