@@ -1,9 +1,10 @@
 import { KeyType } from "./types";
 import cmd from './assets/command.svg'
-import opt from './assets/option.svg'
 import ctrl from './assets/control.svg'
-import fn from './assets/globe.svg'
 import f1 from './assets/f1.svg';
+import f10 from './assets/f10.svg';
+import f11 from './assets/f11.svg';
+import f12 from './assets/f12.svg';
 import f2 from './assets/f2.svg';
 import f3 from './assets/f3.svg';
 import f4 from './assets/f4.svg';
@@ -12,9 +13,8 @@ import f6 from './assets/f6.svg';
 import f7 from './assets/f7.svg';
 import f8 from './assets/f8.svg';
 import f9 from './assets/f9.svg';
-import f10 from './assets/f10.svg';
-import f11 from './assets/f11.svg';
-import f12 from './assets/f12.svg';
+import fn from './assets/globe.svg'
+import opt from './assets/option.svg'
 
 const Icon: React.FC<{svg: string}> = ({svg}) => {
   return <img className={`size-3`} src={svg}></img>
@@ -259,6 +259,7 @@ export const KEYS: KeyType[][] = [
     {
       width: 5.3,
       keyCode: "space",
+      display: <></>
     },
     {
       width: 1.25,
