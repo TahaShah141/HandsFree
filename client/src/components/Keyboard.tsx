@@ -87,6 +87,7 @@ export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}}: Keyboard
     if (selectingKey) {
       addTapKey(k)
       setSelectingKey(false)
+      setIsSwiping(true)
       return;
     }
 
@@ -102,6 +103,7 @@ export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}}: Keyboard
       }
       if (s === '`') {
         setState("TAPPING")
+        setIsSwiping(true)
         if (tappingKeys.tapKeys.length === 0) setSelectingKey(true)
       }
       if (functionKeys.find(f => f === s)) {
