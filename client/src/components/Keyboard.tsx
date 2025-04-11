@@ -28,9 +28,19 @@ export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}}: Keyboard
   const [modifiersPressed, setModifiersPressed] = useState<string[]>([])
   const [state, setState] = useState("KEYBOARD")
   const [prevState, setPrevState] = useState("KEYBOARD")
-  const [tappingKeys, setTappingKeys] = useState<TapKeyType>({tapKeys: []})
   const [addTapKeyOptions, setAddTapKeyOptions] = useState<AddTappingKeyOptionsType>({position: [], type: "ADD", index: 0})
   const [selectingKey, setSelectingKey] = useState(false)
+  const [tappingKeys, setTappingKeys] = useState<TapKeyType>(() => {
+    const stored = localStorage.getItem("TappingLayout")
+    if (stored) {
+      try {
+        return JSON.parse(stored)
+      } catch (e) {
+        console.error("Failed to parse TappingLayout from localStorage", e)
+      }
+    }
+    return { tapKeys: [] }
+  })
 
   useEffect(() => {
     if (selectingKey) {
@@ -40,6 +50,21 @@ export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}}: Keyboard
       }
     }
   }, [selectingKey])
+  
+  useEffect(() => {
+    const storedLayout = localStorage.getItem("TappingLayout")
+    if (storedLayout) {
+      try {
+        setTappingKeys(JSON.parse(storedLayout))
+      } catch (e) {
+        console.error("Failed to parse TappingLayout from localStorage", e)
+      }
+    }
+  }, [])
+  
+  useEffect(() => {
+    localStorage.setItem("TappingLayout", JSON.stringify(tappingKeys))
+  }, [tappingKeys])
   
   const changeState = (s: string) => {
     setPrevState(state)

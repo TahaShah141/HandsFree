@@ -15,7 +15,7 @@ export const Mouse = ({ changeState, flipped, isSwiping, setIsSwiping }: MousePr
   const [loadingImage, setLoadingImage] = useState(false)
   const [clicking, setClicking] = useState(true)
   const [isPortrait, setIsPortrait] = useState(true)
-
+  const [flipY, setFlipY] = useState(false)
   const [magnifierX, setMagnifierX] = useState(0);
   const [magnifierY, setMagnifierY] = useState(0);
   const [showMagnifier, setShowMagnifier] = useState(false);
@@ -41,8 +41,8 @@ export const Mouse = ({ changeState, flipped, isSwiping, setIsSwiping }: MousePr
     const relativeX = clientX - imgRect.left;
     const relativeY = clientY - imgRect.top;
  
-    const magX = relativeX + (flipped ? 1 : -1) * (isPortrait ? magnifierSize : magnifierSize / 2)
-    const magY = relativeY + (flipped ? 1 : -1) * (!isPortrait ? magnifierSize : magnifierSize / 2)
+    const magX = relativeX + (isPortrait && flipped !== flipY || !isPortrait && flipped  ? 1 : -1) * (isPortrait ? magnifierSize : magnifierSize / 2)
+    const magY = relativeY - (isPortrait && flipped || !isPortrait && flipped !== flipY ? -1 : 1) * (!isPortrait ? magnifierSize : magnifierSize / 2)
     const W = imgRef.current.width
     const H = imgRef.current.height
 
@@ -140,9 +140,9 @@ export const Mouse = ({ changeState, flipped, isSwiping, setIsSwiping }: MousePr
       <div onClick={(e) => {e.stopPropagation()}} className="flex portrait:flex-col landscape:flex-row-reverse justify-center portrait:items-center gap-2">
         <div className="flex landscape:flex-col gap-2 p-2 justify-between portrait:w-full">
           <div className="flex landscape:flex-col gap-2">
-            <button onClick={() => changeState("KEYBOARD")} className="size-12 portrait:-rotate-90 bg-neutral-800 p-2 border-neutral-600 border-2 rounded-md">
-              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12z"/></svg>
-            </button>            
+          <button onClick={() => setFlipY(!flipY)} className={`size-12 portrait:-rotate-90 bg-neutral-800 p-2 border-2 rounded-md ${flipY ? "text-white border-white" : "text-neutral-400 border-neutral-600"}`}>
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m17 3l-5 5l-5-5zm0 18l-5-5l-5 5zM4 12H2m8 0H8m8 0h-2m8 0h-2"/></svg>
+            </button>    
             <button onClick={updateScreenShot} className="size-12 portrait:-rotate-90 bg-neutral-800 p-2 border-neutral-600 border-2 rounded-md">
               <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 0 0-8 8a8 8 0 0 0 8 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18a6 6 0 0 1-6-6a6 6 0 0 1 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4z"/></svg>
             </button>            
@@ -199,7 +199,7 @@ export const Mouse = ({ changeState, flipped, isSwiping, setIsSwiping }: MousePr
                 }}
                 className="relative"
                 >
-                <svg className="absolute top-1/2 left-1/2 size-0.5 -translate-x-1/2 -translate-y-1/2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <svg className={`absolute top-1/2 left-1/2 size-0.5 -translate-x-1/2 -translate-y-1/2 ${flipY ? "text-red-500" : "text-green-500"}`} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path fill="currentColor" d="M12 8a4 4 0 0 1 4 4a4 4 0 0 1-4 4a4 4 0 0 1-4-4a4 4 0 0 1 4-4m-8.95 5H1v-2h2.05C3.5 6.83 6.83 3.5 11 3.05V1h2v2.05c4.17.45 7.5 3.78 7.95 7.95H23v2h-2.05c-.45 4.17-3.78 7.5-7.95 7.95V23h-2v-2.05C6.83 20.5 3.5 17.17 3.05 13M12 5a7 7 0 0 0-7 7a7 7 0 0 0 7 7a7 7 0 0 0 7-7a7 7 0 0 0-7-7"/>
                 </svg>
               </div>
