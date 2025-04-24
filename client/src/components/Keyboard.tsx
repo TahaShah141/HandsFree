@@ -221,9 +221,11 @@ export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}}: Keyboard
           keys: [s],
         }),
       })
-      setKEYS(DefaultKEYS)
-      setHyperPressed(false)
-      setModifiersPressed([])
+      if (!fnPressed) {
+        setKEYS(DefaultKEYS)
+        setHyperPressed(false)
+        setModifiersPressed([])
+      }
       return;
     }
 
