@@ -121,7 +121,18 @@ def handle_keyboard():
 def handle_scroll():
     try:
         data = request.json
+        arrows = data.get('isArrowKeys')
         direction = data.get('direction')
+        print(arrows)
+        if arrows:
+          if direction not in ['up', 'down', 'left', 'right']:
+            return jsonify({"status": "error", "message": "Invalid direction. Use 'up', 'down', 'left', or 'right'"}), 400
+          if direction in pynputKeyMap:
+              keyboard.tap(pynputKeyMap[direction])
+              return jsonify({"status": "success", "message": f"Key {direction} Tapped"}), 200
+          else:
+              return jsonify({"status": "error", "message": "Invalid key"}), 500
+        
         magnitude = int(data.get('magnitude', 0))  # Ensure magnitude is an integer
         step_size = 2 # Small step per scroll
         
