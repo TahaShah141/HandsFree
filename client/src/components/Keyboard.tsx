@@ -17,9 +17,11 @@ type KeyboardProps = {
   log?: string
   isSwiping?: boolean
   setIsSwiping?: (b: boolean) => void
+  isArrowKeys?: boolean
+  setIsArrowKeys?: (b: boolean) => void
 }
 
-export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}}: KeyboardProps) => {
+export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}, isArrowKeys=false, setIsArrowKeys=()=>{}}: KeyboardProps) => {
 
   const [flipped, setFlipped] = useState(false)
   const [fnPressed, setFnPressed] = useState(false)
@@ -256,7 +258,7 @@ export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}}: Keyboard
       {state === "HELP" && <Help changeState={changeState}/>}
       {state === "TYPING" && <Typing prevState={() => changeState(prevState)}/>}
       {state === "MOUSE" && <Mouse changeState={changeState} flipped={flipped} isSwiping={isSwiping} setIsSwiping={setIsSwiping} />}
-      {state === "TAPPING" && !selectingKey && <Tapping changeState={changeState} tappingKeys={tappingKeys} setAddTapKeyOptions={setAddTapKeyOptions} setSelectingKey={setSelectingKey} />}
+      {state === "TAPPING" && !selectingKey && <Tapping isArrowKeys={isArrowKeys} setIsArrowKeys={setIsArrowKeys} changeState={changeState} tappingKeys={tappingKeys} setAddTapKeyOptions={setAddTapKeyOptions} setSelectingKey={setSelectingKey} />}
       
       {(state === "KEYBOARD" || (state === "TAPPING" && selectingKey)) && 
       <div className={`flex relative flex-col transition-transform duration-500 ${flipped ? "portrait:rotate-90" : "portrait:-rotate-90"} landscape:scale-[50%] landscape:sm:scale-75 landscape:md:scale-100 justify-center items-center gap-2`}>
