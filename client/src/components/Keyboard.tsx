@@ -3,6 +3,7 @@ import { deepCopy, insertAt } from "../utils"
 import { useEffect, useState } from "react"
 
 import { ArrowKeys } from "./ArrowKeys"
+import { ArrowSwipe } from "./ArrowSwipe"
 import { KEYS as DefaultKEYS } from "../KEYS"
 import { Help } from "./Help"
 import { Key } from "./Key"
@@ -12,16 +13,16 @@ import { Typing } from "./Typing"
 
 const modifiers = ['hyper', 'ctrl', 'fn', 'alt', 'cmd', 'shift']
 const functionKeys = ['f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f9', 'f10', 'f11', 'f12']
+const arrows = ['up', 'down', 'left', 'right']
 
 type KeyboardProps = {
   log?: string
-  isSwiping?: boolean
-  setIsSwiping?: (b: boolean) => void
-  isArrowKeys?: boolean
-  setIsArrowKeys?: (b: boolean) => void
+  isSwiping: boolean
+  setIsSwiping: (b: boolean) => void
+  setIsArrowKeys: (b: boolean) => void
 }
 
-export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}, isArrowKeys=false, setIsArrowKeys=()=>{}}: KeyboardProps) => {
+export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}, setIsArrowKeys=()=>{}}: KeyboardProps) => {
 
   const [flipped, setFlipped] = useState(false)
   const [fnPressed, setFnPressed] = useState(false)
@@ -119,6 +120,11 @@ export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}, isArrowKe
     }
 
     if (fnPressed && modifiersPressed.length === 0 && !modifiers.find(m => m === s)) {
+      if (arrows.find(m => m === s)) {
+        changeState("ARROWS")
+        setIsArrowKeys(true)
+        setIsSwiping(true)
+      }
       if (s === 'space') {
         changeState("TYPING")
       }
@@ -129,7 +135,7 @@ export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}, isArrowKe
         changeState("MOUSE")
       }
       if (s === '`') {
-        setState("TAPPING")
+        changeState("TAPPING")
         setIsSwiping(true)
         if (tappingKeys.tapKeys.length === 0) setSelectingKey(true)
       }
@@ -250,15 +256,16 @@ export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}, isArrowKe
   }
 
   useEffect(() => {
-    setIsSwiping(fnPressed)
-  }, [fnPressed])
+    if (state === "KEYBOARD") setIsSwiping(fnPressed)
+  }, [fnPressed, state])
 
   return (
     <>
       {state === "HELP" && <Help changeState={changeState}/>}
       {state === "TYPING" && <Typing prevState={() => changeState(prevState)}/>}
       {state === "MOUSE" && <Mouse changeState={changeState} flipped={flipped} isSwiping={isSwiping} setIsSwiping={setIsSwiping} />}
-      {state === "TAPPING" && !selectingKey && <Tapping isArrowKeys={isArrowKeys} setIsArrowKeys={setIsArrowKeys} changeState={changeState} tappingKeys={tappingKeys} setAddTapKeyOptions={setAddTapKeyOptions} setSelectingKey={setSelectingKey} />}
+      {state === "TAPPING" && !selectingKey && <Tapping changeState={changeState} tappingKeys={tappingKeys} setAddTapKeyOptions={setAddTapKeyOptions} setSelectingKey={setSelectingKey} />}
+      {state === "ARROWS" && <ArrowSwipe changeState={(s) => {changeState(s); setIsArrowKeys(false)}}/>}
       
       {(state === "KEYBOARD" || (state === "TAPPING" && selectingKey)) && 
       <div className={`flex relative flex-col transition-transform duration-500 ${flipped ? "portrait:rotate-90" : "portrait:-rotate-90"} landscape:scale-[50%] landscape:sm:scale-75 landscape:md:scale-100 justify-center items-center gap-2`}>
