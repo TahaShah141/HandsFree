@@ -180,12 +180,12 @@ export const Mouse = ({ changeState, flipped, isSwiping, setIsSwiping }: MousePr
             <button onClick={() => setClicking(!clicking)} className={`size-12 portrait:-rotate-90 bg-neutral-800 p-2 border-2 rounded-md ${clicking ? "text-white border-white" : "text-neutral-400 border-neutral-600"}`}>
               <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M10.76 8.69a.76.76 0 0 0-.76.76V20.9c0 .42.34.76.76.76c.19 0 .35-.06.48-.16l1.91-1.55l1.66 3.62c.13.27.4.43.69.43c.11 0 .22 0 .33-.08l2.76-1.28c.38-.18.56-.64.36-1.01L17.28 18l2.41-.45a.9.9 0 0 0 .43-.26c.27-.32.23-.79-.12-1.08l-8.74-7.35l-.01.01a.76.76 0 0 0-.49-.18M15 10V8h5v2zm-1.17-5.24l2.83-2.83l1.41 1.41l-2.83 2.83zM10 0h2v5h-2zM3.93 14.66l2.83-2.83l1.41 1.41l-2.83 2.83zm0-11.32l1.41-1.41l2.83 2.83l-1.41 1.41zM7 10H2V8h5z"/></svg>
             </button>            
-            {/* <button onClick={() => setIsSwiping(!isSwiping)} className={`size-12 portrait:-rotate-90 bg-neutral-800 p-2 border-2 rounded-md ${isSwiping ? "text-white border-white" : "text-neutral-400 border-neutral-600"}`}>
+            <button onClick={() => setIsSwiping(!isSwiping)} className={`size-12 portrait:-rotate-90 bg-neutral-800 p-2 border-2 rounded-md ${isSwiping ? "text-white border-white" : "text-neutral-400 border-neutral-600"}`}>
               <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M20.11 3.89L22 2v5h-5l2.08-2.08c-.53-.69-1.44-1.26-2.72-1.73S13.63 2.5 12 2.5c-1.62 0-3.08.22-4.36.69S5.45 4.23 4.92 4.92L7 7H2V2l1.89 1.89C4.64 3 5.74 2.31 7.2 1.78C8.65 1.25 10.25 1 12 1s3.35.25 4.8.78c1.46.53 2.56 1.22 3.31 2.11m-.38 12.38v.18L19 21.7c-.08.38-.24.69-.5.94c-.27.25-.59.36-.97.36h-6.8c-.37 0-.73-.14-1.03-.45l-4.97-4.92l.8-.8c.22-.22.47-.33.8-.33h.23l3.44.75V6.5c0-.39.13-.74.43-1.04S11.08 5 11.5 5c.39 0 .74.16 1.04.46s.46.65.46 1.04v6h.78c.1 0 .27.05.52.11l4.54 2.25c.6.28.89.75.89 1.41"/></svg>
-              </button>             */}
-              <button onClick={() => setAutoReload(!autoReload)} className={`size-12 portrait:-rotate-90 bg-neutral-800 p-2 border-2 rounded-md ${autoReload ? "text-white border-white" : "text-neutral-400 border-neutral-600"}`}>
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M10 2h4m-2 12v-4m-8 3a8 8 0 0 1 8-7a8 8 0 1 1-5.3 14L4 17.6"/><path d="M9 17H4v5"/></g></svg>
-              </button>            
+            </button>            
+            {/* <button onClick={() => setAutoReload(!autoReload)} className={`size-12 portrait:-rotate-90 bg-neutral-800 p-2 border-2 rounded-md ${autoReload ? "text-white border-white" : "text-neutral-400 border-neutral-600"}`}>
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M10 2h4m-2 12v-4m-8 3a8 8 0 0 1 8-7a8 8 0 1 1-5.3 14L4 17.6"/><path d="M9 17H4v5"/></g></svg>
+            </button>             */}
           </div>
         </div>
         <div className="relative">
