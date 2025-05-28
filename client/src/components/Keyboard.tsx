@@ -71,6 +71,7 @@ export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}, setIsArro
 
   useEffect(() => {
     localStorage.setItem("State", state)
+    setIsArrowKeys(state === "ARROWS")
   }, [state])
   
   const changeState = (s: string) => {
@@ -126,7 +127,6 @@ export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}, setIsArro
     if (fnPressed && modifiersPressed.length === 0 && !modifiers.find(m => m === s)) {
       if (arrows.find(m => m === s)) {
         changeState("ARROWS")
-        setIsArrowKeys(true)
         setIsSwiping(true)
       }
       if (s === 'space') {
@@ -269,7 +269,7 @@ export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}, setIsArro
       {state === "TYPING" && <Typing prevState={() => changeState(prevState)}/>}
       {state === "MOUSE" && <Mouse changeState={changeState} flipped={flipped} isSwiping={isSwiping} setIsSwiping={setIsSwiping} />}
       {state === "TAPPING" && !selectingKey && <Tapping changeState={changeState} tappingKeys={tappingKeys} setAddTapKeyOptions={setAddTapKeyOptions} setSelectingKey={setSelectingKey} />}
-      {state === "ARROWS" && <ArrowSwipe changeState={(s) => {changeState(s); setIsArrowKeys(false)}}/>}
+      {state === "ARROWS" && <ArrowSwipe changeState={changeState}/>}
       
       {(state === "KEYBOARD" || (state === "TAPPING" && selectingKey)) && 
       <div className={`flex relative flex-col transition-transform duration-500 ${flipped ? "portrait:rotate-90" : "portrait:-rotate-90"} landscape:scale-[50%] landscape:sm:scale-75 landscape:md:scale-100 justify-center items-center gap-2`}>
