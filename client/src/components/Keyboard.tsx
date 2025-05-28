@@ -29,7 +29,7 @@ export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}, setIsArro
   const [hyperPressed, setHyperPressed] = useState(false)
   const [KEYS, setKEYS] = useState(DefaultKEYS)
   const [modifiersPressed, setModifiersPressed] = useState<string[]>([])
-  const [state, setState] = useState("KEYBOARD")
+  const [state, setState] = useState(localStorage.getItem("State") || "KEYBOARD")
   const [prevState, setPrevState] = useState("KEYBOARD")
   const [addTapKeyOptions, setAddTapKeyOptions] = useState<AddTappingKeyOptionsType>({position: [], type: "ADD", index: 0})
   const [selectingKey, setSelectingKey] = useState(false)
@@ -68,6 +68,10 @@ export const Keyboard = ({log="", isSwiping=true, setIsSwiping=()=>{}, setIsArro
   useEffect(() => {
     localStorage.setItem("TappingLayout", JSON.stringify(tappingKeys))
   }, [tappingKeys])
+
+  useEffect(() => {
+    localStorage.setItem("State", state)
+  }, [state])
   
   const changeState = (s: string) => {
     setPrevState(state)
