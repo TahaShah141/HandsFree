@@ -34,10 +34,10 @@ function App() {
     <SwipeArea isSwiping={isSwiping} onSwipeDown={onSwipeDown} onSwipeLeft={onSwipeLeft} onSwipeRight={onSwipeRight} onSwipeUp={onSwipeUp}>
       <>
       <div className='landscape:hidden h-screen flex flex-col justify-center items-center'>
-        <Keyboard isArrowKeys={isArrowKeys} setIsArrowKeys={setIsArrowKeys} setIsSwiping={setIsSwiping} isSwiping={isSwiping}/>
+        <Keyboard setIsArrowKeys={setIsArrowKeys} setIsSwiping={setIsSwiping} isSwiping={isSwiping}/>
       </div>
       <div className='p-4 hidden flex-col landscape:flex justify-center items-center h-screen'>
-        <Keyboard isArrowKeys={isArrowKeys} setIsArrowKeys={setIsArrowKeys} setIsSwiping={setIsSwiping} isSwiping={isSwiping}/>
+        <Keyboard setIsArrowKeys={setIsArrowKeys} setIsSwiping={setIsSwiping} isSwiping={isSwiping}/>
       </div>
       </>
     </SwipeArea>
