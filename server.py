@@ -1,3 +1,4 @@
+import webbrowser
 import time
 from flask import Flask, request, jsonify
 from pynput.keyboard import Controller as KeyboardController
@@ -116,6 +117,21 @@ def handle_keyboard():
         return jsonify({"status": "success", "message": f"Keys {keys} pressed in order"}), 200
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
+      
+@app.route('/link', methods=['POST'])
+def handle_url():
+    try:
+        data = request.json
+        link = data.get('link')
+        if not link:
+            return jsonify({"status": "error", "message": "Missing 'link' in request body"}), 400
+        
+        print("Opening link", link)
+        webbrowser.open(link)
+        return jsonify({"status": "success", "message": f"Opened {link}"}), 200
+
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 @app.route('/scroll', methods=['POST'])
 def handle_scroll():
@@ -161,5 +177,5 @@ def handle_scroll():
         return jsonify({"status": "error", "message": str(e)}), 500
 
 if __name__ == '__main__':
-    # app.run(host='0.0.0.0', port=1301, debug=True)
-    app.run(host='0.0.0.0', port=1301)
+    app.run(host='0.0.0.0', port=1301, debug=True)
+    # app.run(host='0.0.0.0', port=1301)
