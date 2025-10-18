@@ -46,7 +46,8 @@ def kill_process(pid):
         print(f"Process with PID {pid} does not exist.")
     except psutil.TimeoutExpired:
         print(f"Process with PID {pid} did not terminate in time. Sending SIGKILL.")
-        proc.kill()  # Forcefully kill the process
+        # Forcefully kill the process
+        proc.kill()  # type: ignore 
     except Exception as e:
         print(f"Error killing process with PID {pid}: {e}")
 

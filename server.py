@@ -22,10 +22,15 @@ def test_route():
 @app.route('/kill', methods=['GET'])
 def kill():
     killServers()
+    return jsonify({"status": "success", "message": f"Servers Killed"}), 200
     
 @app.route('/text', methods=['POST'])
 def type():
   data = request.json
+
+  if data == None:
+    return jsonify({"status": "error", "message": f"Data is missing from the request body"}), 200
+
   text = data.get('text', '')
   keyboard.type(text)
   return jsonify({"status": "success", "message": f"Text '{text}' typed"}), 200
@@ -34,6 +39,10 @@ def type():
 def handle_shift():
     try:
         data = request.json
+
+        if data == None:
+          return jsonify({"status": "error", "message": f"Data is missing from the request body"}), 200
+
         keys = data.get('keys', [])  # List of keys to press in order
         k = keys[0]
         hotkey('shift', pyGUIKeyMap[k])
@@ -53,6 +62,10 @@ def handle_click():
     """ Moves the mouse to a given (x, y) percentage position and clicks. """
     try:
         data = request.json
+
+        if data == None:
+          return jsonify({"status": "error", "message": f"Data is missing from the request body"}), 200
+
         x_percent = float(data.get("x", 0))
         y_percent = float(data.get("y", 0))
         clicking = False if data.get("clicking", 0) == 0 else True
@@ -82,6 +95,10 @@ def handle_click():
 @app.route('/keyboard', methods=['POST'])
 def handle_keyboard():
     data = request.json
+
+    if data == None:
+      return jsonify({"status": "error", "message": f"Data is missing from the request body"}), 200
+
     keys = data.get('keys', [])  # List of keys to press in order
 
     try:
@@ -122,6 +139,10 @@ def handle_keyboard():
 def handle_url():
     try:
         data = request.json
+
+        if data == None:
+          return jsonify({"status": "error", "message": f"Data is missing from the request body"}), 200
+
         link = data.get('link')
         if not link:
             return jsonify({"status": "error", "message": "Missing 'link' in request body"}), 400
@@ -137,6 +158,10 @@ def handle_url():
 def handle_scroll():
     try:
         data = request.json
+
+        if data == None:
+          return jsonify({"status": "error", "message": f"Data is missing from the request body"}), 200
+
         arrows = data.get('isArrowKeys')
         direction = data.get('direction')
         print(arrows)
